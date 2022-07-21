@@ -87,18 +87,30 @@ static List<Movie> SearchByTitle()
         List<Movie> titles = all.DistinctBy(m => m.Title).ToList();
         while (true)
         {
-            titles.ForEach(t => Console.WriteLine("{0,-5}{1,-30}", $"{titles.IndexOf(t) + 1}.", $"{t.Title}"));
-            int intChoice = Validator.Validator.GetUserNumberInt();
-            if (!Validator.Validator.InRange(intChoice, 1, titles.Count))
+            Console.WriteLine("Enter a movie title to search for.");
+            string choice = Console.ReadLine();
+            List<Movie> result = context.Movies.Where(m => m.Title.ToLower().Contains(choice.ToLower())).ToList();
+            if (result.Count == 0)
             {
-                Console.Clear();
-                Console.WriteLine("Out of range. Please try again.");
                 continue;
             }
-            Movie choice = titles[intChoice - 1];
-            List<Movie> result = context.Movies.Where(m => m.Title.ToLower() == choice.Title.ToLower()).ToList();
             return result;
         }
+        //vvv alternate option, would not work as well with a huge database vvv
+        //while (true)
+        //{
+        //    titles.ForEach(t => Console.WriteLine("{0,-5}{1,-30}", $"{titles.IndexOf(t) + 1}.", $"{t.Title}"));
+        //    int intChoice = Validator.Validator.GetUserNumberInt();
+        //    if (!Validator.Validator.InRange(intChoice, 1, titles.Count))
+        //    {
+        //        Console.Clear();
+        //        Console.WriteLine("Out of range. Please try again.");
+        //        continue;
+        //    }
+        //    Movie choice = titles[intChoice - 1];
+        //    List<Movie> result = context.Movies.Where(m => m.Title.ToLower() == choice.Title.ToLower()).ToList();
+        //    return result;
+        //}
     }
 
 }
